@@ -1,8 +1,8 @@
-# Network Inventory System
+# 🌐 Network Inventory System
 
 A Python-based command-line Network Inventory System for managing network devices.
 
-## Features
+## 📌 Features
 
 - Display network devices
 - Add new devices
@@ -18,7 +18,7 @@ A Python-based command-line Network Inventory System for managing network device
 - Interactive command-line interface
 - Input validation and error handling
 
-## Technologies Used
+## 🛠 Technologies Used
 
 - Python 3
 - JSON
@@ -26,7 +26,7 @@ A Python-based command-line Network Inventory System for managing network device
 - `ipaddress`
 - Git / GitHub
 
-## Project Structure
+## 🚀 Project Structure
 
 ```text
 Network_Inventory/
@@ -37,3 +37,10 @@ Network_Inventory/
 ├── inventory.csv
 ├── README.md
 └── .gitignore
+
+## 👨‍💻 Author
+
+**Alusine Mbogba**
+
+Electrical & Electronics Engineering Student  
+Communication Engineering | Python Automation | Networking
