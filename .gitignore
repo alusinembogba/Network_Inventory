@@ -1,0 +1,44 @@
+
+### `.gitignore`
+
+For this project, use:
+
+```gitignore
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Generated reports
+inventory.txt
+inventory.csv
