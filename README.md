@@ -37,7 +37,7 @@ Network_Inventory/
 ├── inventory.csv
 ├── README.md
 └── .gitignore
-
+```
 ## 👨‍💻 Author
 
 **Alusine Mbogba**
