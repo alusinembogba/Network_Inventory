@@ -4,34 +4,39 @@
         "ip": "192.168.1.1",
         "device_type": "Router",
         "vendor": "Huawei",
-        "status": "Online"
+        "status": "UNREACHABLE",
+        "response_time": "994.6ms"
     },
     {
         "hostname": "Switch01",
         "ip": "192.168.1.2",
         "device_type": "Switch",
         "vendor": "Cisco",
-        "status": "Online"
+        "status": "UNREACHABLE",
+        "response_time": "998.51ms"
     },
     {
         "hostname": "Router02",
         "ip": "192.168.1.3",
         "device_type": "Router",
         "vendor": "Huawei",
-        "status": "Online"
+        "status": "UNREACHABLE",
+        "response_time": "1021.63ms"
     },
     {
         "hostname": "Router03",
         "ip": "192.168.1.5",
         "device_type": "Router",
         "vendor": "Huawei",
-        "status": "Online"
+        "status": "UNREACHABLE",
+        "response_time": "993.97ms"
     },
     {
         "hostname": "switch03",
         "ip": "192.168.1.4",
         "device_type": "Switch",
         "vendor": "Cisco",
-        "status": "Online"
+        "status": "UNREACHABLE",
+        "response_time": "991.92ms"
     }
 ]

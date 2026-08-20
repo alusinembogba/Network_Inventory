@@ -2,6 +2,10 @@ import json
 import time
 import csv
 import ipaddress
+from datetime import datetime
+from health_checker import test_devices,get_health_summary
+
+
 
 def load_inventory():
     try:
@@ -248,7 +252,11 @@ def update_device(inventory):
     print(f"Status: {device['status']}")
     print()
     
-    ip = input("New IP Address: ") or device["ip"]
+    ip = input("New IP Address: ").strip() or device["ip"]
+    
+    if not validate_ip(ip):
+        print("Error: Invalid IP address")
+        return False
     
     for other_device in inventory:
 
@@ -341,12 +349,12 @@ def main():
         print("-" * 25)
         print("1. Show Devices")
         print("2. Add Devices")
-        print("3. Save Inventory")
-        print("4. Search Device")
-        print("5. Delete Device")
-        print("6. Update Device")
-        print("7. Export TXT Report")
-        print("8. Export CSV Report")
+        print("3. Search Device")
+        print("4. Delete Device")
+        print("5. Update Device")
+        print("6. Export TXT Report")
+        print("7. Export CSV Report")
+        print("8. Run Network Health Check")
         print("9. Exit")
         print()
 
@@ -367,29 +375,55 @@ def main():
                     save_inventory(inventory)
 
             elif option == 3:
-                save_inventory(inventory)
-                time.sleep(2)
-
-            elif option == 4:
                 search_device(inventory)
                 time.sleep(2)
 
-            elif option == 5:
+            elif option == 4:
                 if delete_device(inventory):
                     save_inventory(inventory)
                 time.sleep(2)
 
-            elif option == 6:
+            elif option == 5:
                 if update_device(inventory):
                     save_inventory(inventory)
                 time.sleep(2)
 
-            elif option == 7:
+            elif option == 6:
                 export_txt(inventory)
                 time.sleep(2)
                 
-            elif option == 8:
+            elif option == 7:
                 export_csv(inventory)
+                time.sleep(2)
+                
+            elif option == 8:
+                test_devices(inventory)
+                reachable,unreachable, invalid = get_health_summary(inventory)
+                
+                print("\nNetwork Health Check")
+                print("-" * 25)
+                print(f"Checked: {datetime.now().strftime('%d %B %Y %H:%M:%S')}")
+                print()
+                for device in inventory:
+                    
+                    print(
+                        f"{device['hostname']} | "
+                        f"{device['ip']} | "
+                        f"{device['status']} | "
+                        f"{device['response_time']}"
+                    )
+                    print() 
+                
+                
+                print("\nSummary")
+                print("-"*10)
+    
+                print(f"Total devices: {len(inventory)}")
+                print(f"Reachable: {reachable}")
+                print(f"Unreachable: {unreachable}")        
+                print(f"Invalid IP: {invalid}")
+                        
+                save_inventory(inventory)
                 time.sleep(2)
 
             elif option == 9:
