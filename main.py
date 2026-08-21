@@ -6,8 +6,7 @@ from datetime import datetime
 from health_checker import test_devices,get_health_summary, ping_device
 import logging
 import logger_config
-
-
+from health_history import record_health_check
 
 
 def load_inventory():
@@ -462,6 +461,7 @@ def main():
             elif option == 8:
                 logging.info("Network health check started")
                 test_devices(inventory)
+                record_health_check(inventory)
                 reachable,unreachable, invalid = get_health_summary(inventory)
                 
                 print("\nNetwork Health Check")
