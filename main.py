@@ -4,6 +4,9 @@ import csv
 import ipaddress
 from datetime import datetime
 from health_checker import test_devices,get_health_summary, ping_device
+import logging
+import logger_config
+
 
 
 
@@ -122,6 +125,10 @@ def add_device(inventory):
     }
 
     inventory.append(new_device)
+    
+    logging.info(
+        f"Device added: {hostname} ({ip})"
+    )
 
     print("\nDevice added successfully!\n")
 
@@ -212,6 +219,11 @@ def delete_device(inventory):
                 
                 if device["hostname"].lower() == hostname.lower():
                     deleted = inventory.pop(i)
+                    
+                    logging.info(
+                        f"Device deleted: {deleted['hostname']} ({deleted['ip']})"
+                    )
+                    
                     print(f"Deleted: {deleted['hostname']}")
                     return True
                 
@@ -280,6 +292,14 @@ def update_device(inventory):
     }  
 
     device.update(updates)
+    
+    logging.info(
+        f"Device updated: {device['hostname']} | "
+        f"IP: {device['ip']} | "
+        f"Type: {device['device_type']} | "
+        f"Vendor: {device['vendor']} | "
+        f"Status: {device['status']}"
+    )
     
     print(f"\nUpdated {device['hostname']}")
     print("\nUpdated Information")
@@ -355,6 +375,8 @@ def check_specific_device(inventory):
         print("Device not found.\n")
         return False
     
+    logging.info(f"Device health check started")
+    
     status, response_time = ping_device(device["ip"])
     
     device["status"] = status
@@ -374,6 +396,9 @@ def check_specific_device(inventory):
     print(f"Status: {device['status']}")
     print(f"Response Time: {device['response_time']}")
     print() 
+    
+    logging.info(f"Device {device['hostname']} ({device['ip']}) health check completed")
+    
     return True 
   
 
@@ -435,6 +460,7 @@ def main():
                 time.sleep(2)
                 
             elif option == 8:
+                logging.info("Network health check started")
                 test_devices(inventory)
                 reachable,unreachable, invalid = get_health_summary(inventory)
                 
@@ -460,6 +486,13 @@ def main():
                 print(f"Reachable: {reachable}")
                 print(f"Unreachable: {unreachable}")        
                 print(f"Invalid IP: {invalid}")
+                
+                logging.info(
+                    f"Network health check completed | "
+                    f"Total: {len(inventory)} | "
+                    f"Reachable: {reachable} | "
+                    f"Unreachable: {unreachable}"
+                )
                         
                 save_inventory(inventory)
                 time.sleep(2)

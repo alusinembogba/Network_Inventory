@@ -42,3 +42,4 @@ Thumbs.db
 # Generated reports
 inventory.txt
 inventory.csv
+network.log

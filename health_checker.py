@@ -1,7 +1,8 @@
 import subprocess
 import time
 import ipaddress
-
+import logging
+import logger_config
 
 def validate_ip(ip):
     try:
@@ -13,6 +14,7 @@ def validate_ip(ip):
 def ping_device(ip):
     
     if not validate_ip(ip):
+        logging.error(f"Invalid IP address: {ip}")
         return "INVALID_IP", None
     
     start_time = time.time()
@@ -27,8 +29,15 @@ def ping_device(ip):
     response_time = (end_time - start_time) * 1000
     
     if result.returncode == 0:
+        logging.info(
+            f"Device {ip} is reachable. "
+            f"Response time: {round(response_time, 2)}ms"
+        )
         return "REACHABLE", response_time
     else:
+        logging.warning(
+            f"Device {ip} is unreachable."
+        )
         return "UNREACHABLE", response_time
     
 def test_devices(devices):
