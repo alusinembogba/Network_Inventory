@@ -3,7 +3,7 @@ import time
 import csv
 import ipaddress
 from datetime import datetime
-from health_checker import test_devices,get_health_summary
+from health_checker import test_devices,get_health_summary, ping_device
 
 
 
@@ -338,6 +338,43 @@ def validate_ip(ip):
         return True
     except ValueError:
         return False
+   
+def check_specific_device(inventory):
+    
+    if not inventory:
+        print("No device found\n")
+        return
+    
+    hostname = input("Enter device hostname: ").strip()
+    
+    device = next((dev for dev in inventory
+                  if dev["hostname"].lower() == hostname.lower()),
+                  None
+                  )
+    if not device: 
+        print("Device not found.\n")
+        return False
+    
+    status, response_time = ping_device(device["ip"])
+    
+    device["status"] = status
+    if status == "INVALID_IP":
+        device["response_time"] = "N/A"
+    else:
+        device["response_time"] = f"{round(response_time, 2)}ms"    
+        
+    print(f"\nChecking {device['hostname']}...")
+    print("\nDevice Health Check")
+    print("-" * 25)
+    print(f"Checked: {datetime.now().strftime('%d %B %Y %H:%M:%S')}")
+    print()    
+    
+    print(f"Hostname: {device['hostname']}")
+    print(f"IP: {device['ip']}")
+    print(f"Status: {device['status']}")
+    print(f"Response Time: {device['response_time']}")
+    print() 
+    return True 
   
 
 
@@ -355,11 +392,12 @@ def main():
         print("6. Export TXT Report")
         print("7. Export CSV Report")
         print("8. Run Network Health Check")
-        print("9. Exit")
+        print("9. Check Specific Device")
+        print("10. Exit")
         print()
 
         try:
-            option = int(input("Enter the option: "))
+            option = int(input("Enter an option: "))
 
         except ValueError:
             print("Must be a number!")
@@ -425,13 +463,17 @@ def main():
                         
                 save_inventory(inventory)
                 time.sleep(2)
-
             elif option == 9:
+                if check_specific_device(inventory):
+                    save_inventory(inventory)
+                time.sleep(2)
+                
+            elif option == 10:
                 print("\nExiting program...")
                 break
 
             else:
-                print("\nEnter an option (1-9)")
+                print("\nEnter an option (1-10)")
                 
 if __name__ == "__main__":
     main()

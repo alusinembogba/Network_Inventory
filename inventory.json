@@ -13,7 +13,7 @@
         "device_type": "Switch",
         "vendor": "Cisco",
         "status": "UNREACHABLE",
-        "response_time": "998.51ms"
+        "response_time": "992.18ms"
     },
     {
         "hostname": "Router02",
